@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "blr.den",
   "name": "Den",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": "Bailey Rosen",
   "license": "MIT",
   "description": "A compact session switcher for agents, workspaces, tabs, and shells.",
@@ -22,6 +22,7 @@
       "closedRefreshSeconds": 10,
       "panelWidth": 400,
       "showAttentionCount": true,
+      "reduceMotion": false,
       "navigationTarget": "Collie dashboard"
     },
     "schema": [
@@ -31,6 +32,7 @@
       { "key": "closedRefreshSeconds", "type": "integer", "label": "Closed refresh (seconds)", "min": 5, "max": 120, "step": 5, "defaultValue": 10 },
       { "key": "panelWidth", "type": "integer", "label": "Panel width", "min": 320, "max": 560, "step": 10, "defaultValue": 400 },
       { "key": "showAttentionCount", "type": "boolean", "label": "Show attention indicator", "defaultValue": true },
+      { "key": "reduceMotion", "type": "boolean", "label": "Reduce motion", "defaultValue": false, "description": "Disable Den's view transitions, sliding indicators, and animated feedback." },
       { "key": "navigationTarget", "type": "enum", "label": "Row navigation", "options": ["Collie dashboard", "Herdr terminal"], "defaultValue": "Collie dashboard", "description": "Choose whether selecting a row opens Collie or focuses that work in Herdr." }
     ]
   }

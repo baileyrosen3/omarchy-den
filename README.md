@@ -103,6 +103,13 @@ Choose the session in the footer when multiple running sessions are available.
 The navbar indicator is red for blocked agents and green for unseen completion.
 Long lists scroll; the header and footer stay visible.
 
+Destination and view indicators slide into place, with brief fades for hover,
+focus, and item menus. View changes use a small, 160 ms transition. Polling keeps
+existing rows in place and does not replay entrance animations. Enable **Reduce
+motion** in the widget settings to make Den's transitions instant; the outer
+popup follows Omarchy's own opening and closing animation. Searching keeps the
+panel height steady, so results and controls do not jump while you type.
+
 ### Destinations
 
 | Selection | Herdr terminal | Collie web dashboard |
@@ -163,6 +170,7 @@ in `~/.config/omarchy/shell.json`.
 | `closedRefreshSeconds` | `10` | Polling interval while closed. |
 | `panelWidth` | `400` | Popup width, constrained to the screen. |
 | `showAttentionCount` | `true` | Show the navbar attention dot. |
+| `reduceMotion` | `false` | Make Den's transitions and animated feedback instant. |
 
 For example, update the existing layout entry to:
 
@@ -229,7 +237,7 @@ python3 -B -m unittest discover -s tests -p 'test_*.py'
 Node is only needed for development tests. The runtime has no npm or pip
 dependencies. The helper disables inherited HTTP proxies for bridge requests
 and invokes Herdr with argument arrays. Tests cover triage, all four views,
-search, host collisions, scoped links, and useful failure responses. QML linting
+search, host collisions, scoped links, stable row updates, and useful failure responses. QML linting
 requires Omarchy's local shell imports.
 
 ## License

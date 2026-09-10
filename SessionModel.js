@@ -1,5 +1,24 @@
 // Pure snapshot/view logic, shared by the QML popup and regression checks.
 function items(snapshot, name) { return Array.isArray(snapshot[name]) ? snapshot[name] : [] }
+// Keep delegate identity across polling. Scalar roles avoid nested ListModel
+// objects retaining references to rows after removal or a menu closes.
+function syncList(model, rows) {
+  var wanted = Object.create(null)
+  rows.forEach(function(r) { wanted[r.key] = true })
+  for (var old = model.count - 1; old >= 0; old--) {
+    if (!wanted[model.get(old).key]) model.remove(old)
+  }
+  rows.forEach(function(row, index) {
+    var found = index
+    while (found < model.count && model.get(found).key !== row.key) found++
+    var payload = JSON.stringify(row)
+    if (found === model.count) model.insert(index, {key: row.key, payload: payload})
+    else {
+      if (found !== index) model.move(found, index, 1)
+      if (model.get(index).payload !== payload) model.setProperty(index, "payload", payload)
+    }
+  })
+}
 function host(item) { return String(item.host || "") }
 function sameScope(a, b) { return host(a) === host(b) }
 function key(kind, item) { return kind + ":" + host(item) + ":" + String(item.paneId || item.tabId || item.workspaceId) }

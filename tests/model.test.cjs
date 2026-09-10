@@ -42,4 +42,35 @@ assert.equal(model.webUrl(snapshot,'http://localhost:8787','work space',model.ro
 assert.equal(model.webUrl(snapshot,'http://localhost:8787','',local),'http://localhost:8787/space/w1');
 assert.equal(model.webUrl(snapshot,'http://localhost:8787','other',null),'http://localhost:8787?s=other');
 assert.equal(model.webUrl(snapshot,'http://localhost:8787','',model.row(snapshot,{tabId:'empty',workspaceId:'w1'},'tab')),'http://localhost:8787/space/w1','empty tab link falls back to its own workspace');
-console.log('Den model checks passed: triage, all actions, filtering, scopes, and routes.');
+// A ListModel-compatible adapter lets us assert that polling preserves entries,
+// while moves, edits, insertions, and removals reach the correct scoped row.
+const entries = [];
+let writes = 0;
+const list = {
+  get count() { return entries.length; },
+  get: i => entries[i],
+  insert: (i, value) => { writes++; entries.splice(i, 0, value); },
+  remove: i => { writes++; entries.splice(i, 1); },
+  move: (from, to) => { writes++; entries.splice(to, 0, entries.splice(from, 1)[0]); },
+  setProperty: (i, role, value) => { writes++; entries[i][role] = value; }
+};
+const initial = build('agents');
+model.syncList(list, initial);
+const identities = new Map(entries.map(entry => [entry.key, entry]));
+writes = 0;
+model.syncList(list, JSON.parse(JSON.stringify(initial)));
+assert.equal(writes, 0, 'identical polling must not reset rows or animate the list');
+const changed = initial.slice().reverse().map(row => ({...row, title: row.key === initial[1].key ? 'Updated title' : row.title}));
+model.syncList(list, changed);
+assert.deepEqual(entries.map(entry => entry.key), changed.map(row => row.key));
+assert(entries.every(entry => identities.get(entry.key) === entry), 'reordering and edits preserve delegate identity');
+assert.equal(JSON.parse(entries.find(entry => entry.key === initial[1].key).payload).title, 'Updated title');
+const filtered = selectable(changed).filter(row => row.item.host);
+model.syncList(list, filtered);
+assert.equal(entries.length, 1, 'filter removes all local and heading entries');
+assert.equal(entries[0], identities.get(filtered[0].key), 'remote row keeps its identity despite duplicate pane IDs');
+model.syncList(list, build('spaces'));
+assert.deepEqual(entries.map(entry => entry.key), build('spaces').map(row => row.key), 'switching views replaces only unrelated rows');
+model.syncList(list, []);
+assert.equal(list.count, 0);
+console.log('Den model checks passed: triage, actions, filtering, scopes, routes, and stable list updates.');
