@@ -1,0 +1,26 @@
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate JSON
+        run: python3 -m json.tool manifest.json > /dev/null
+      - name: Check session model
+        run: node tests/model.test.cjs
+      - name: Check bridge adapter
+        run: python3 -B -m unittest discover -s tests -p 'test_*.py'
