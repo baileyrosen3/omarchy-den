@@ -10,8 +10,8 @@ import "SessionModel.js" as Model
 
 Panel {
   id: root
-  moduleName: "blr.swarm"
-  ipcTarget: "blr.swarm"
+  moduleName: "blr.den"
+  ipcTarget: "blr.den"
   manageIpc: false
 
   readonly property string backendPath: Qt.resolvedUrl("collie.py").toString().replace("file://", "")
@@ -270,11 +270,11 @@ Panel {
     id: barButton
     anchors.fill: parent
     bar: root.bar
-    tooltipText: "Swarm · " + (!root.connected ? "unavailable" : root.blockedCount + " needs you · " + root.readyCount + " ready · " + root.workingCount + " working")
+    tooltipText: "Den · " + (!root.connected ? "unavailable" : root.blockedCount + " needs you · " + root.readyCount + " ready · " + root.workingCount + " working")
     iconComponent: Component {
       Item {
         implicitWidth: Style.space(16); implicitHeight: Style.space(16)
-        SwarmIcon { anchors.fill: parent; color: root.bar ? root.bar.foreground : root.foreground; opacity: root.connected ? 1 : 0.5 }
+        DenIcon { anchors.fill: parent; color: root.bar ? root.bar.foreground : root.foreground; opacity: root.connected ? 1 : 0.5 }
         Rectangle {
           visible: Boolean(root.setting("showAttentionCount", true)) && root.connected && root.blockedCount + root.readyCount > 0
           anchors.right: parent.right; anchors.top: parent.top
@@ -317,8 +317,8 @@ Panel {
           width: parent.width
           height: Style.space(28)
           spacing: Style.space(6)
-          SwarmIcon { color: root.foreground; Layout.preferredWidth: Style.space(21); Layout.preferredHeight: Style.space(21) }
-          Label { text: "Swarm"; font.pixelSize: Style.font.title; font.bold: true; Layout.fillWidth: true }
+          DenIcon { color: root.foreground; Layout.preferredWidth: Style.space(21); Layout.preferredHeight: Style.space(21) }
+          Label { text: "Den"; font.pixelSize: Style.font.title; font.bold: true; Layout.fillWidth: true }
           Rectangle {
             implicitWidth: Style.space(121); implicitHeight: Style.space(26)
             radius: Style.space(5); color: root.alpha(root.foreground, 0.05)

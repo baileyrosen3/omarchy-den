@@ -42,4 +42,4 @@ assert.equal(model.webUrl(snapshot,'http://localhost:8787','work space',model.ro
 assert.equal(model.webUrl(snapshot,'http://localhost:8787','',local),'http://localhost:8787/space/w1');
 assert.equal(model.webUrl(snapshot,'http://localhost:8787','other',null),'http://localhost:8787?s=other');
 assert.equal(model.webUrl(snapshot,'http://localhost:8787','',model.row(snapshot,{tabId:'empty',workspaceId:'w1'},'tab')),'http://localhost:8787/space/w1','empty tab link falls back to its own workspace');
-console.log('Swarm model checks passed: triage, all actions, filtering, scopes, and routes.');
+console.log('Den model checks passed: triage, all actions, filtering, scopes, and routes.');

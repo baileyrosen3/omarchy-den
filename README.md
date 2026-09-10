@@ -1,15 +1,15 @@
-<img src="docs/swarm.svg" width="64" alt="Swarm honeycomb mark">
+<img src="docs/den.svg" width="64" alt="Den cave entrance mark">
 
-# Swarm
+# Den
 
 **Your agents, workspaces, tabs, and shells—one compact Omarchy popup.**
 
-Swarm brings session triage to the navbar. See which agents need you, find the
+Den brings session triage to the navbar. See which agents need you, find the
 right workspace, and jump directly into Herdr or the
 [Collie web dashboard](https://github.com/AltanS/collie).
 
 It uses Omarchy's native Quickshell UI and follows your desktop theme, with a
-honeycomb icon, compact rows, and a panel that grows only as far as it needs to.
+cave entrance icon, compact rows, and a panel that grows only as far as it needs to.
 
 ## What you can do
 
@@ -17,7 +17,7 @@ honeycomb icon, compact rows, and a panel that grows only as far as it needs to.
   stays unseen until the backend records it as seen; polling never clears it.
 - **Jump to the exact target.** Pick **Collie** or **Herdr** once, then click any
   agent, shell, tab, or workspace. Your destination is saved across restarts.
-- **Browse without leaving Swarm.** The **›** beside a workspace or tab opens
+- **Browse without leaving Den.** The **›** beside a workspace or tab opens
   its contents. Clicking the row itself opens that target.
 - **Find work quickly.** Filter each view by title, workspace, tab, agent type,
   or working directory. Search includes collapsed Recent entries.
@@ -39,40 +39,58 @@ honeycomb icon, compact rows, and a panel that grows only as far as it needs to.
 Tested locally with Omarchy **4.0.3-1**, Herdr **0.9.0**, and the dashboard bridge
 **1.8.0**. Other backend/version combinations have not been verified.
 
-Swarm does not install or start Herdr or the bridge. Follow their upstream setup
+Den does not install or start Herdr or the bridge. Follow their upstream setup
 instructions first. Confirm the dashboard can see your Herdr sessions before
-installing Swarm.
+installing Den.
 
 ## Install
 
 ```sh
-omarchy plugin add https://github.com/baileyrosen3/omarchy-swarm.git --yes &&
-  bash ~/.config/omarchy/plugins/blr.swarm/check-deps.sh &&
-  omarchy plugin enable blr.swarm
+omarchy plugin add https://github.com/baileyrosen3/omarchy-den.git --yes &&
+  bash ~/.config/omarchy/plugins/blr.den/check-deps.sh &&
+  omarchy plugin enable blr.den
 ```
 
-The plugin ID is **`blr.swarm`**. It installs into
-`~/.config/omarchy/plugins/blr.swarm` and appears in the left navbar section.
-Click the honeycomb icon to open it. The preflight requires **Collie, Herdr,
+The plugin ID is **`blr.den`**. It installs into
+`~/.config/omarchy/plugins/blr.den` and appears in the left navbar section.
+Click the cave entrance icon to open it. The preflight requires **Collie, Herdr,
 Python 3.9+, and xdg-open** before enabling the plugin. It reports missing
 programs with download guidance and does not install them automatically.
 
-Swarm also checks the required commands when loading session data, so a missing
+Den also checks the required commands when loading session data, so a missing
 dependency produces an actionable message in the popup. Installed commands and
 a running, connected bridge are separate requirements.
 
 ```sh
 # Enable an installed copy
-omarchy plugin enable blr.swarm
+omarchy plugin enable blr.den
 
 # Update from this repository
-omarchy plugin update blr.swarm --yes
+omarchy plugin update blr.den --yes
 
 # Remove the plugin
+omarchy plugin remove blr.den --yes
+```
+
+### Upgrading from Swarm
+
+The plugin ID has changed from `blr.swarm` to `blr.den`. Add Den and check its
+dependencies first:
+
+```sh
+omarchy plugin add https://github.com/baileyrosen3/omarchy-den.git --yes &&
+  bash ~/.config/omarchy/plugins/blr.den/check-deps.sh
+```
+
+In `~/.config/omarchy/shell.json`, change the existing widget's
+`"id": "blr.swarm"` to `"id": "blr.den"`. Keep its other settings to preserve
+your destination, preferences, and navbar position. Then remove the old copy:
+
+```sh
 omarchy plugin remove blr.swarm --yes
 ```
 
-## Using Swarm
+## Using Den
 
 | View | Contents |
 | --- | --- |
@@ -110,13 +128,13 @@ Right-click an **item**, or select it and press **Shift+F10**, for:
 - **Copy item ID**.
 
 The menu stays attached to the selected item while it is open. Failed navigation
-keeps Swarm open and shows the error so you can retry.
+keeps Den open and shows the error so you can retry.
 
 ### Keyboard and mouse
 
 | Control | Action |
 | --- | --- |
-| Navbar left click | Open/close Swarm. |
+| Navbar left click | Open/close Den. |
 | Navbar middle click | Open the Collie web dashboard. |
 | Navbar right click | Cycle running sessions. |
 | Item left click / Enter | Open the item in your chosen destination. |
@@ -133,7 +151,7 @@ keeps Swarm open and shows the error so you can retry.
 
 ## Settings
 
-Configure Swarm through the shell's widget settings, or edit its existing entry
+Configure Den through the shell's widget settings, or edit its existing entry
 in `~/.config/omarchy/shell.json`.
 
 | Setting | Default | Purpose |
@@ -150,7 +168,7 @@ For example, update the existing layout entry to:
 
 ```json
 {
-  "id": "blr.swarm",
+  "id": "blr.den",
   "navigationTarget": "Herdr terminal",
   "panelWidth": 400
 }
@@ -163,10 +181,10 @@ Recent expansion and sort preferences are also saved automatically.
 
 **No data or a disconnected bridge:** open the dashboard and confirm Herdr is
 connected. Check `bridgeUrl`, then press **Ctrl+R**. You can inspect the same
-read-only snapshot Swarm uses:
+read-only snapshot Den uses:
 
 ```sh
-python3 -B ~/.config/omarchy/plugins/blr.swarm/collie.py snapshot http://127.0.0.1:8787
+python3 -B ~/.config/omarchy/plugins/blr.den/collie.py snapshot http://127.0.0.1:8787
 ```
 
 **A required program is missing:** install
@@ -174,7 +192,7 @@ python3 -B ~/.config/omarchy/plugins/blr.swarm/collie.py snapshot http://127.0.0
 [Herdr](https://herdr.dev), make sure both commands are on `PATH`, then rerun:
 
 ```sh
-bash ~/.config/omarchy/plugins/blr.swarm/check-deps.sh
+bash ~/.config/omarchy/plugins/blr.den/check-deps.sh
 ```
 
 **Herdr will not focus an item:** confirm `herdr` is on the desktop shell's
@@ -184,17 +202,17 @@ open the item in the dashboard while troubleshooting.
 **Changes are not visible:** user plugin files normally hot-reload. If the shell
 still shows cached code, run `omarchy restart shell`.
 
-Cached session data is marked explicitly when the bridge fails. Swarm does not
+Cached session data is marked explicitly when the bridge fails. Den does not
 send terminal input, restart your sessions, or mark panes seen during polling.
 
 ## Development
 
 ```sh
-git clone https://github.com/baileyrosen3/omarchy-swarm.git
-cd omarchy-swarm
+git clone https://github.com/baileyrosen3/omarchy-den.git
+cd omarchy-den
 
 omarchy plugin validate .
-qmllint -I /usr/share/omarchy/shell Panel.qml SwarmIcon.qml
+qmllint -I /usr/share/omarchy/shell Panel.qml DenIcon.qml
 node tests/model.test.cjs
 python3 -B -m unittest discover -s tests -p 'test_*.py'
 ```
@@ -202,7 +220,7 @@ python3 -B -m unittest discover -s tests -p 'test_*.py'
 | File | Responsibility |
 | --- | --- |
 | `Panel.qml` | Navbar widget, popup, item menus, keyboard handling, and process control. |
-| `SwarmIcon.qml` | Theme-aware honeycomb icon. |
+| `DenIcon.qml` | Theme-aware cave entrance icon. |
 | `SessionModel.js` | Triage, filtering, scope matching, and dashboard links. |
 | `collie.py` | Standard-library bridge adapter and exact Herdr focus operations. |
 | `check-deps.sh` | Read-only prerequisite check before enabling the plugin. |
@@ -216,5 +234,5 @@ requires Omarchy's local shell imports.
 
 ## License
 
-[MIT](LICENSE). Swarm is an independent plugin for Omarchy, Herdr, and the Collie
+[MIT](LICENSE). Den is an independent plugin for Omarchy, Herdr, and the Collie
 web dashboard.

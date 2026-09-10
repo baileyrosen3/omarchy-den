@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "blr.swarm",
-  "name": "Swarm",
-  "version": "0.3.2",
+  "id": "blr.den",
+  "name": "Den",
+  "version": "0.4.0",
   "author": "Bailey Rosen",
   "license": "MIT",
   "description": "A compact session switcher for agents, workspaces, tabs, and shells.",
   "kinds": ["bar-widget"],
   "entryPoints": { "barWidget": "Panel.qml" },
   "barWidget": {
-    "displayName": "Swarm",
+    "displayName": "Den",
     "description": "Triage agents and open any workspace, tab, or pane in Herdr or the Collie web dashboard.",
     "category": "AI",
-    "aliases": ["swarm", "collie", "herdr", "sessions", "agents"],
+    "aliases": ["den", "collie", "herdr", "sessions", "agents"],
     "allowMultiple": false,
     "defaultSection": "left",
     "defaults": {
